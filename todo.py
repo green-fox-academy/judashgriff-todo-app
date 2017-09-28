@@ -27,6 +27,7 @@ class Controller(object):
 
     def make_dictionary(self):
         todo_dict = []
+        current_line = 1
         with open('todo.txt', 'r') as text
         for line in text:
             d = {}
