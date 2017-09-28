@@ -22,22 +22,22 @@ class Controller(object):
         =============================\n\n\
         Command line arguments:\n\
          -l   Lists all the tasks\n\
-         -a   Adds a new task\n\
-         -r   Removes a task\n\
-         -c   Completes an task"))
+         -a   Adds a new task in following method: -a \"your text\"\n\
+         -r   Removes a task in following method: -r \"task to remove\"\n\
+         -c   Completes an task in following method: -c \"task to comply\""))
 
     def make_dictionary(self):
         todo_list = []
         with open('todo.txt', 'r') as text:
             for line in text:
                 d = {}
-                checked_line = self.if_checked(line)
+                checked_line = self.check_items(line)
                 d["text"] = line
                 d["check"] = checked_line    
                 todo_list.append(d)
         return todo_list
 
-    def if_checked(self, line):
+    def check_items(self, line):
         if line[0] != 0 and line[0] != 1:
             checking = 0 
             return checking
@@ -55,10 +55,13 @@ class Controller(object):
                     print(str(i + 1)+ " - [x]" + task['text'])
 
     def add_items(self, todo_list):
-        with open('todo.txt', 'a') as text:
-            new_task = input('What do you want to add to the list? \n')
-            text.write(new_task + '\n')
-        return self.new_list()
+        if len(argv) < 3 or len(argv) > 3:
+            self.lets_print()
+        else:
+            with open('todo.txt', 'a') as text:
+                new_task = argv[2]
+                text.write(new_task + '\n')
+            self.new_list()
         
     def new_list(self):
         print('\nThe list is the following now: \n')
@@ -67,11 +70,15 @@ class Controller(object):
         
 
     def remove_items(self, todo_list):
-        pass
-
-
-    def check_items(self, todo_list):
-        pass
+        if len(argv) < 3 or len(argv) > 3:
+            self.lets_print()
+        elif len(argv) == 3:
+            to_remove = argv[2]
+            with open('todo.txt', 'w') as text:
+                for i, line in enumerate(todo_list):
+                    if to_remove == todo_list[i]['text']:
+                        todo_list -= todo_list[i]
+            self.new_list()
 
 
       
