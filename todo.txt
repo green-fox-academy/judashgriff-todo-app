@@ -1,2 +1,2 @@
-buy some milk
-go traineat lunch
+buy milk
+write a nice code
