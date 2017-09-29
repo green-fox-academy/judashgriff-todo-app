@@ -13,7 +13,7 @@ class Controller(object):
             elif argv[1] == '-r':
                 self.remove_items(todo_list)
             elif argv[1] == '-c':
-                self.check_items(todo_list)    
+                self.switch_check(todo_list)    
 
 
     def lets_print(self):
@@ -44,14 +44,28 @@ class Controller(object):
         else:
             return line
 
+    def switch_check(self, todo_list):
+        if len(argv) < 3 or len(argv) > 3:
+            self.lets_print()
+        elif len(argv) == 3:
+            to_switch = argv[2]
+            for i, line in enumerate(todo_list):
+                    if to_switch == todo_list[i]['text']:
+                        if todo_list[i]['check'] == 1:
+                            todo_list[i]['check'] = 0
+                        elif todo_list[i]['check'] == 0:
+                            todo_list[i]['check'] = 1
+            self.list_items(todo_list)
+
     def list_items(self, todo_list):
         if todo_list == []:
-            print('No todos for today! :)')
+            print('\nNo todos for today! :)')
         else:
+            print('\n')
             for i, task in enumerate(todo_list):
                 if task['check'] == 0:
                     print(str(i + 1) + " - [ ]" + task['text'])
-                if task['check'] == 1:
+                else task['check'] == 1:
                     print(str(i + 1)+ " - [x]" + task['text'])
 
     def add_items(self, todo_list):
@@ -67,7 +81,6 @@ class Controller(object):
         print('\nThe list is the following now: \n')
         todo_list = self.make_dictionary()
         return self.list_items(todo_list)
-        
 
     def remove_items(self, todo_list):
         if len(argv) < 3 or len(argv) > 3:
